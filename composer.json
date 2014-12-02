@@ -1,0 +1,7 @@
+{
+    "name": "db0company/HenTie",
+    "description": "A web server file browser / media manager / index viewer.",
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
