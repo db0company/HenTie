@@ -1,4 +1,4 @@
-<div style="text-align:center"><img src ="http://i.imgur.com/K2ohHpA.png" /></div>
+![HenTie Logo](http://i.imgur.com/acmngin.png)
 
 Hen Tie Browser
 ===============
