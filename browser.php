@@ -26,10 +26,10 @@ $conf = array(
               // AJAX JQuery: $.ajax('browser.php').done(function(html) {
               //                  $('#browser').html(html);
               //               });
-              'html_headers' => false,
+              'html_headers' => true,
 
 	      // On true, title and logo will be showed on top the files.
-	      'show_title' => false,
+	      'show_title' => true,
 
               // Relative file of the file to browse.
               // On true, a login form will block access to the content.
