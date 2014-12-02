@@ -1,5 +1,5 @@
 {
-    "name": "db0company/HenTie",
+    "name": "db0company/hentie",
     "description": "A web server file browser / media manager / index viewer.",
     "require": {
         "php": ">=5.3.0"
