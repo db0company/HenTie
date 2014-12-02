@@ -77,6 +77,16 @@ Copyright/License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.    
+
+
+Icons Copyright
+---------------
+
+- Chicken by Ana María Lora Macias from The Noun Project
+- Tie by Michela Tannoia from The Noun Project
+- File by Julien Deveaux from The Noun Project
+- Folder by Julien Deveaux from The Noun Project
+- Left by im icons from The Noun Project
    
 Up to date
 ----------
