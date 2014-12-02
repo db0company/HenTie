@@ -68,6 +68,9 @@ $conf = array(
               // instead of the 'file_icon' above.
               'picture_extensions' => array('png', 'jpg', 'jpeg', 'gif', 'bmp'),
 
+	      // Will show a link to the author and source websites.
+	      'thanks' => true,
+
               // Will show PHP Errors.
               'debug' => false,
               );
@@ -203,7 +206,10 @@ function show_dir($path = '') {
       }
     }
   }
-  print("</table>\n");
+  echo '</table>';
+  if ($conf['thanks'] === true) {
+    echo '<div class="text-right"><small>Made by <a href="http://db0.fr/">db0</a>. Sources available on <a href="https://github.com/db0company/HenTie">GitHub</a>.</small></div>';
+  }
 }
 
 function browser() {
