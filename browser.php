@@ -28,6 +28,9 @@ $conf = array(
               //               });
               'html_headers' => true,
 
+	      // On true, show a grid, otherwise show a list
+	      'grid' => false,
+
 	      // On true, title and logo will be showed on top the files.
 	      'show_title' => true,
 
@@ -51,9 +54,13 @@ $conf = array(
 
               // Icons showed near file names.
               // External URLs or local paths allowed.
+	      // Uncomment the lines below to use the local files instead.
               'dir_icon' => 'https://raw.githubusercontent.com/db0company/HenTie/master/img/folder.png',
               'file_icon' => 'https://raw.githubusercontent.com/db0company/HenTie/master/img/file.png',
               'back_icon' => 'https://raw.githubusercontent.com/db0company/HenTie/master/img/back.png',
+              // 'dir_icon' => 'img/folder.png',
+              // 'file_icon' => 'img/file.png',
+              // 'back_icon' => 'img/back.png',
 
               // On true, will only show files that have an extension in
               // the 'allowed_extensions' array
@@ -67,6 +74,12 @@ $conf = array(
               // The files with those extensions will show the picture
               // instead of the 'file_icon' above.
               'picture_extensions' => array('png', 'jpg', 'jpeg', 'gif', 'bmp'),
+
+	      // On true, show images thumbnails, otherwise show default file icon
+	      'show_thumbnails' => true,
+
+	      // Thumbnails prefix, use '' to use images directly
+	      'thumbnail_prefix' => '.thb_',
 
 	      // Will show a link to the author and source websites.
 	      'thanks' => true,
@@ -164,10 +177,14 @@ function human_filesize($bytes, $decimals = 2) {
 function show_file_line($icon, $path, $filename, $realpath, $target = true) {
   global $conf;
   $link = '<a href="'.$path.$filename.'" '.($target ? 'target="_blank"' : '').'>';
-  echo '<tr><td>'.$link.'<img src="'.$icon.
-    '" style="max-width: 30px;" alt="icon"></a></td><td>'.$link.$filename.
-    '</a></td><td>'.filetype($realpath).'</td><td>',
-    human_filesize(filesize($realpath)).'</td></tr>';
+  if ($conf['grid']) {
+    echo '<div class="col-md-3">'.$link.'<img src="'.$icon.'" style="max-width: 100%;"><br>'.$filename.'</a></div>';
+  } else {
+    echo '<tr><td>'.$link.'<img src="'.$icon.
+      '" style="max-width: 30px;" alt="icon"></a></td><td>'.$link.$filename.
+      '</a></td><td>'.filetype($realpath).'</td><td>',
+      human_filesize(filesize($realpath)).'</td></tr>';
+  }
 }
 
 function show_dir($path = '') {
@@ -186,27 +203,41 @@ function show_dir($path = '') {
   if ($conf['show_title'] === true) {
     echo '<h1> '.(empty($conf['logo']) ? '' : '<img src="'.$conf['logo'].'" alt="logo" width="70">').' '.$conf['title'].'</h1>';
   }
-  echo '<table style="width: 100%;" class="table table-striped table-bordered table-hover">';
-  echo '<tr><th width="35"></th><th>Filename</th><th>Filetype</th><th>Filesize</th></tr>';
+  if ($conf['grid']) {
+    echo '<div class="row text-center">';
+  } else {
+    echo '<table style="width: 100%;" class="table table-striped table-bordered table-hover">';
+    echo '<tr><th width="35"></th><th>Filename</th><th>Filetype</th><th>Filesize</th></tr>';
+  }
 
   $parentpath = dirname($path);
+  $i = 0;
   if (!empty($path)) {
     show_file_line($conf['back_icon'],
                    ($parentpath == '.' ? '?' : '?path='.$parentpath),
                    '', '', false);
+    $i = 1;
   }
   foreach ($files as $filename) {
+      if ($conf['grid'] && !($i % 4)) {
+	echo '</div><br><div class="row text-center">';
+      }
     if (($conf['show_hidden_files'] && $filename !== '..' && $filename !== '.')
         || $filename[0] != '.') {
-      $realpath = $conf['path'].'/'.(empty($path) ? '' : $path.'/').$filename;
+    $realpath = $conf['path'].'/'.(empty($path) ? '' : $path.'/').$filename;
       if (is_dir($realpath)) {
         show_file_line($conf['dir_icon'], '?path='.(empty($path) ? '' : $path.'/'), $filename, $realpath, false);
       } else if (is_allowed($realpath)) {
-        show_file_line((in_array(get_extension($filename), $conf['picture_extensions']) ? $conf['path'].'/'.$path.'/'.$filename : $conf['file_icon']), $conf['path'].'/'.$path.'/', $filename, $realpath, true);
+        show_file_line(($conf['show_thumbnails'] ? (in_array(get_extension($filename), $conf['picture_extensions']) ? $conf['path'].'/'.$path.'/'.$conf['thumbnail_prefix'].$filename.($conf['grid'] ? '" class="img-thumbnail' : '') : $conf['file_icon']) : $conf['file_icon']), $conf['path'].'/'.$path.'/', $filename, $realpath, true);
       }
+      $i++;
     }
   }
-  echo '</table>';
+  if ($conf['grid']) {
+    echo '</div><br>';
+  } else {
+    echo '</table>';
+  }
   if ($conf['thanks'] === true) {
     echo '<div class="text-right"><small>Made by <a href="http://db0.fr/">db0</a>. Sources available on <a href="https://github.com/db0company/HenTie">GitHub</a>.</small></div>';
   }

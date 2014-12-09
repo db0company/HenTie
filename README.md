@@ -11,7 +11,10 @@ Quick Index
 -----------
 
 ```shell
-cd /directory/to/index && wget https://raw.githubusercontent.com/db0company/HenTie/master/browser.php -O index.php
+cd /directory/to/index
+wget "http://www.fmwconcepts.com/imagemagick/downloadcounter.php?scriptname=squareup&dirname=squareup" -O squareup.sh
+bash ./generate_thumbnails .
+wget https://raw.githubusercontent.com/db0company/HenTie/master/browser.php -O index.php
 ```
 
 Documentation
@@ -19,13 +22,20 @@ Documentation
 
 Requires a web server (Apache, Nginx) that supports PHP5+.
 
+If you index images, use the `generate_thumbnail.sh` script to, well... generate the thumbnails.
+For better results, download the ImageMagick `squareup.sh` script (see [Quick Index](#quick-index)).
+
 Edit the first part of the file according to the comments to fit your desired configuration:
 - Authentication page
 - Custom logo, title, icons
 - Restrict files extensions and hidden files
+- Display as a grid or as a list
 - And more!
 
 ![Hen Tie File Browser](http://i.imgur.com/haifeLB.png)
+
+Grid style, when activated:
+![Hen Tie Grid style](http://i.imgur.com/WMQnU7O.png)
 
 Authentication page, when activated:
 
